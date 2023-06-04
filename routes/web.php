@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PanchagarhController::class,'findALl']);
+
+Route::get('/party-wise',[PanchagarhController::class,'partyWise']);

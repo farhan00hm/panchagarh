@@ -109,13 +109,8 @@
             @foreach ($datas as $key=>$data)
                 @if($data->সাল == '2008')
                     @php
-                        $color = $data->ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির > $data->মোঃ_মজাহারুল_হক_প্রধান ? 'red' : 'green';
-                        if($data->ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির > $data->মোঃ_মজাহারুল_হক_প্রধান){
-                            $percentage = ($data->ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির * 100)/$data->মোট_বৈধ;
-                        }else{
-                            $percentage = ($data->মোঃ_মজাহারুল_হক_প্রধান * 100)/$data->মোট_বৈধ;
-                        }
-
+                        $bnpPercentage = ($data->ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির * 100)/$data->মোট_বৈধ;
+                        $awamiPercentage = ($data->মোঃ_মজাহারুল_হক_প্রধান * 100)/$data->মোট_বৈধ;
                     @endphp
 {{--                    <defs>--}}
 {{--                        <linearGradient id="grad{{$key}}" x1="0%" y1="0%" x2="100%" y2="0%">--}}
@@ -126,17 +121,20 @@
 {{--                        </linearGradient>--}}
 {{--                    </defs>--}}
                     <defs>
+
                         <linearGradient id="grad{{$key}}" x1="0%" y1="100%" x2="0%" y2="0%">
-                            <stop offset="0%" style="stop-color: {{$color}}; stop-opacity: 1" />
-                            <stop offset="{{$percentage}}%" style="stop-color: {{$color}}; stop-opacity: 1" />
-                            <stop offset="{{$percentage}}%" style="stop-color: #fff; stop-opacity: 1" />
+                            <stop offset="0%" style="stop-color: red; stop-opacity: 1" />
+                            <stop offset="{{ $bnpPercentage }}%" style="stop-color: red; stop-opacity: 1" />
+                            <stop offset="{{ $bnpPercentage }}%" style="stop-color: green; stop-opacity: 1" />
+                            <stop offset="{{ $bnpPercentage + $awamiPercentage }}%" style="stop-color: green; stop-opacity: 1" />
+                            <stop offset="{{ $bnpPercentage + $awamiPercentage }}%" style="stop-color: #fff; stop-opacity: 1" />
                             <stop offset="100%" style="stop-color: #fff; stop-opacity: 1" />
                         </linearGradient>
                     </defs>
                     <path
                         class="path-hover"
                         d="{{ $pathsValue[$data->ইউনিয়ন] }}"
-                        data-union = {{ $data->ইউনিয়ন }}
+                        data-union = "{{ $data->ইউনিয়ন }}"
                             data-a="{{ $data->ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির }}"
                         data-b="{{ $data->মোঃ_মজাহারুল_হক_প্রধান }}"
                         style="opacity:0.5;fill: url(#grad{{$key}}); ;fill-opacity:0.6;stroke:#2c2c2f;stroke-width:0.22900671;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.9372549"
@@ -171,14 +169,68 @@
     $(document).ready(function () {
 
         // Filter button click event
+        {{--$('.button-group[data-group="year"] input[type="radio"]').on('change', function() {--}}
+        {{--    var selectedYear = $(this).val();--}}
+
+        {{--    // Filter the data based on the selected year--}}
+        {{--    var datas = {!! $datas !!};--}}
+        {{--    var pathvalues = @json($pathsValue);--}}
+        {{--    console.log(pathvalues)--}}
+        {{--    --}}{{--let pathsvalues = @josn({!! $pathsValue !!});--}}
+        {{--    var filteredData = datas.filter(function(data) {--}}
+        {{--        return data['সাল'] === selectedYear;--}}
+        {{--    });--}}
+
+        {{--    // Generate the updated SVG code--}}
+        {{--    var svgCode = '<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" id="panchagarh-1-map" version="1.1" viewBox="0 0 210 297" height="250mm" width="210mm">';--}}
+
+        {{--    svgCode += '<defs id="defs558"></defs>';--}}
+        {{--    svgCode += '<metadata id="metadata561">';--}}
+        {{--    svgCode += '<rdf:RDF>';--}}
+        {{--    svgCode += '<cc:Work rdf:about="">';--}}
+        {{--    svgCode += '<dc:format>image/svg+xml</dc:format>';--}}
+        {{--    svgCode += '<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />';--}}
+        {{--    svgCode += '<dc:title></dc:title>';--}}
+        {{--    svgCode += '</cc:Work>';--}}
+        {{--    svgCode += '</rdf:RDF>';--}}
+        {{--    svgCode += '</metadata>';--}}
+        {{--    svgCode += '<g id="layer1">';--}}
+
+        {{--    filteredData.forEach(function(data, index) {--}}
+        {{--        let union = data['ইউনিয়ন'];--}}
+        {{--        // console.log(union);--}}
+        {{--        var color = data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] > data['মোঃ_মজাহারুল_হক_প্রধান'] ? 'red' : 'green';--}}
+        {{--        // console.log("Union: "+union+" color is :"+color);--}}
+        {{--        console.log("Union: "+union+"jamir: "+data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির']+" majhar: "+data['মোঃ_মজাহারুল_হক_প্রধান']);--}}
+        {{--        console.log(color);--}}
+        {{--        var percentage = data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] > data['মোঃ_মজাহারুল_হক_প্রধান'] ? (data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] * 100) / data['মোট_বৈধ'] : (data['মোঃ_মজাহারুল_হক_প্রধান'] * 100) / data['মোট_বৈধ'];--}}
+
+        {{--        svgCode += '<defs>';--}}
+        {{--        svgCode += '<linearGradient id="grad' + index + '" x1="0%" y1="100%" x2="0%" y2="0%">';--}}
+        {{--        svgCode += '<stop offset="0%" style="stop-color: ' + color + '; stop-opacity: 1" />';--}}
+        {{--        svgCode += '<stop offset="' + percentage + '%" style="stop-color: ' + color + '; stop-opacity: 1" />';--}}
+        {{--        svgCode += '<stop offset="' + (percentage + 0.1) + '%" style="stop-color: #ccc; stop-opacity: 1" />';--}}
+        {{--        svgCode += '<stop offset="100%" style="stop-color: #ccc; stop-opacity: 1" />';--}}
+        {{--        svgCode += '</linearGradient>';--}}
+        {{--        svgCode += '</defs>';--}}
+        {{--        svgCode += '<path class="path-hover" d="' + pathvalues[union] + '" data-union="' + data['ইউনিয়ন'] + '" data-a="' + data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] + '" data-b="' + data['মোঃ_মজাহারুল_হক_প্রধান'] + '" style="opacity:0.5;fill: url(#grad' + index + '); fill-opacity:0.6; stroke:#2c2c2f; stroke-width:0.22900671; stroke-linecap:round; stroke-linejoin:bevel; stroke-miterlimit:4; stroke-dasharray:none; stroke-dashoffset:0; stroke-opacity:0.9372549" />';--}}
+        {{--    });--}}
+
+        {{--    svgCode += '</g>';--}}
+        {{--    svgCode += '</svg>';--}}
+
+        {{--    // Replace the entire SVG with the updated SVG code--}}
+        {{--    $('#panchagarh-1-map').replaceWith(svgCode);--}}
+        {{--});--}}
+
+        // Filter button click event
         $('.button-group[data-group="year"] input[type="radio"]').on('change', function() {
             var selectedYear = $(this).val();
 
             // Filter the data based on the selected year
             var datas = {!! $datas !!};
             var pathvalues = @json($pathsValue);
-            console.log(pathvalues)
-            {{--let pathsvalues = @josn({!! $pathsValue !!});--}}
+            console.log(pathvalues);
             var filteredData = datas.filter(function(data) {
                 return data['সাল'] === selectedYear;
             });
@@ -200,17 +252,28 @@
 
             filteredData.forEach(function(data, index) {
                 let union = data['ইউনিয়ন'];
-                console.log(union);
-                var color = data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] > data['মোঃ_মজাহারুল_হক_প্রধান'] ? 'red' : 'green';
-                var percentage = data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] > data['মোঃ_মজাহারুল_হক_প্রধান'] ? (data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] * 100) / data['মোট_বৈধ'] : (data['মোঃ_মজাহারুল_হক_প্রধান'] * 100) / data['মোট_বৈধ'];
+                // var color = data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] > data['মোঃ_মজাহারুল_হক_প্রধান'] ? 'red' : 'green';
+                var bnpPercentage = (data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির']*100)/data['মোট_বৈধ'];
+                var awamiPercentage =(data['মোঃ_মজাহারুল_হক_প্রধান']*100)/data['মোট_বৈধ'];
+                console.log("Union: "+union+" Jamir: "+data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির']+" Majharul: "+data['মোঃ_মজাহারুল_হক_প্রধান']+" Bnp: "+bnpPercentage+" Awami: "+awamiPercentage)
+
 
                 svgCode += '<defs>';
                 svgCode += '<linearGradient id="grad' + index + '" x1="0%" y1="100%" x2="0%" y2="0%">';
-                svgCode += '<stop offset="0%" style="stop-color: ' + color + '; stop-opacity: 1" />';
-                svgCode += '<stop offset="' + percentage + '%" style="stop-color: ' + color + '; stop-opacity: 1" />';
-                svgCode += '<stop offset="' + (percentage + 0.1) + '%" style="stop-color: #ccc; stop-opacity: 1" />';
-                svgCode += '<stop offset="100%" style="stop-color: #ccc; stop-opacity: 1" />';
+                svgCode += '<stop offset="0%" style="stop-color: red; stop-opacity: 1" />';
+                svgCode += '<stop offset="' + bnpPercentage + '%" style="stop-color: red; stop-opacity: 1" />';
+                svgCode += '<stop offset="' + bnpPercentage + '%" style="stop-color: green; stop-opacity: 1" />';
+                svgCode += '<stop offset="' + (bnpPercentage+awamiPercentage) + '%" style="stop-color: green; stop-opacity: 1" />';
+                svgCode += '<stop offset="' +  (bnpPercentage + awamiPercentage) + '%" style="stop-color: white; stop-opacity: 1" />';
+                svgCode += '<stop offset="100%" style="stop-color: white; stop-opacity: 1" />';
                 svgCode += '</linearGradient>';
+                // svgCode += '<linearGradient id="grad' + index + '" x1="0%" y1="100%" x2="0%" y2="0%">';
+                // svgCode += '<stop offset="0%" style="stop-color: red; stop-opacity: 1" />';
+                // svgCode += '<stop offset="' + bnpPercentage + '%" style="stop-color: red; stop-opacity: 1" />';
+                // svgCode += '<stop offset="' + awamiPercentage + '%" style="stop-color: green; stop-opacity: 1" />';
+                // // svgCode += '<stop offset="' + (bnpPercentage + awamiPercentage + remainingPercentage) + '%" style="stop-color: #fff; stop-opacity: 1" />';
+                // svgCode += '<stop offset="100%" style="stop-color: #fff; stop-opacity: 1" />';
+                // svgCode += '</linearGradient>';
                 svgCode += '</defs>';
                 svgCode += '<path class="path-hover" d="' + pathvalues[union] + '" data-union="' + data['ইউনিয়ন'] + '" data-a="' + data['ব্যারিস্টার_মুহম্মদ_নওশাদ_জমির'] + '" data-b="' + data['মোঃ_মজাহারুল_হক_প্রধান'] + '" style="opacity:0.5;fill: url(#grad' + index + '); fill-opacity:0.6; stroke:#2c2c2f; stroke-width:0.22900671; stroke-linecap:round; stroke-linejoin:bevel; stroke-miterlimit:4; stroke-dasharray:none; stroke-dashoffset:0; stroke-opacity:0.9372549" />';
             });
